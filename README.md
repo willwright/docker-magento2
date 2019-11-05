@@ -39,7 +39,7 @@ HAProxy (v1.9) -> Varnish (v6.3) -> Apache2 (2.4)
  
  This configuration requires that you run `docker-compose build` prior to starting the stack.
  
- This configuration *only* mounts that directories that are used for __most__ development activities, thus speeding
+ This configuration *only* mounts the directories that are used for __most__ development activities, thus speeding
   up the entire stack.
  
  ## Frequent Tasks
