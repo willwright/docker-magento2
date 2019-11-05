@@ -33,6 +33,15 @@ HAProxy (v1.9) -> Varnish (v6.3) -> Apache2 (2.4)
  
  Data for ElasticSearch is persisted in a Volume `esdata1`.
  
+ ### Fast
+ There is a "fast" configuration pre-configured in `docker-compose-fast.yaml`.  To use this configuration either specify
+ the fille specifically when running `docker-compose up` or change the file name.
+ 
+ This configuration requires that you run `docker-compose build` prior to starting the stack.
+ 
+ This configuration *only* mounts that directories that are used for __most__ development activities, thus speeding
+  up the entire stack.
+ 
  ## Frequent Tasks
  ### Terminal into the web container to run Magento CLI
  
