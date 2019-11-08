@@ -1,6 +1,6 @@
 FROM wwright/magento2-web-local
 
-MAINTAINER wwright <signup@noimagination.com>
+MAINTAINER Will Wright <will@magesmith.com>
 
 # disable interactive functions
 ARG DEBIAN_FRONTEND=noninteractive
