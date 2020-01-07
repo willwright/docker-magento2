@@ -1,0 +1,61 @@
+#####################################
+#   Configured for: Magento 2.3 + Varnish
+#####################################
+version: '3.7'
+services:
+  web:
+    image: wwright/magento2-web-local
+    build: .
+    volumes:
+#     - /Users/wwright/development/www/local-magento2EE/dev/magento:/var/www/html/current
+     - magento2ee-web-sync:/var/www/html/current/app:nocopy
+    environment:
+      - XDEBUG_CONFIG=remote_host=host.docker.internal remote_enable=0
+      - PHP_IDE_CONFIG=serverName=local.magento2.com
+    depends_on:
+     - redis-cache
+     - redis-fpc
+     - redis-session
+     - db
+  redis-cache:
+    image: wwright/magento2-redis
+    command: [redis-server,/etc/redis/6379-redis-cache.conf]
+  redis-fpc:
+    image: wwright/magento2-redis
+    command: [redis-server,/etc/redis/6380-redis-fpc.conf]
+  redis-session:
+    image: wwright/magento2-redis
+    command: [redis-server,/etc/redis/6381-redis-sessions.conf]
+  db:
+    image: wwright/magento2-db
+    volumes:
+     - mysqldb:/var/lib/mysql
+    ports:
+     - "3306:3306"
+    environment:
+     - MYSQL_ROOT_PASSWORD=password123
+     - MYSQL_DATABASE=magento
+  varnish:
+    image: wwright/magento2-varnish
+    depends_on:
+     - web
+  elasticsearch:
+    image: elasticsearch:6.8.3
+    volumes:
+     - esdata1:/usr/share/elasticsearch/data
+  kibana:
+    image: kibana:6.8.3
+    ports:
+     - 5601:5601
+  haproxy:
+    image: wwright/magento2-haproxy
+    ports:
+     - "80:80"
+     - "443:443"
+    depends_on:
+     - varnish
+volumes:
+  mysqldb:
+  esdata1:
+  magento2ee-web-sync:
+    external: true
