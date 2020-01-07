@@ -35,8 +35,30 @@ Data for ElasticSearch is persisted in a Volume `esdata1`.
 
 ### Fast
 There is a "fast" configuration pre-configured in `docker-compose-fast.yaml`.  To use this configuration either specify
-the fille specifically when running `docker-compose up` or change the file name.
+the file specifically when running `docker-compose up` or change the file name.
 
+This configuration requires that you run `docker-compose build` prior to starting the stack.
+
+This configuration *only* mounts the directories that are used for __most__ development activities, thus speeding
+up the entire stack.
+
+### Docker Sync
+There is a pre-configured YAML for using `docker-sync` in `docker-compose-docker-sync.yaml`.  To use this configuration either specify
+the file specifically when running `docker-compose up` or change the file name.
+
+This configuration requires that you install and configure `docker-sync`. This configuration is intended to be used with 
+`docker-sync.yml`.
+
+SEE: http://docker-sync.io for installation instructions.
+
+### Docker Sync App Only
+There is a pre-configured YAML for using `docker-sync` in `docker-compose-docker-sync.yaml`.  To use this configuration either specify
+the file specifically when running `docker-compose up` or change the file name.
+
+This configuration requires that you install and configure `docker-sync`. This configuration is intended to be used with 
+`docker-sync-app-only.yml`.
+
+SEE: http://docker-sync.io for installation instructions.
 This configuration requires that you run `docker-compose build` prior to starting the stack.
 
 This configuration *only* mounts the directories that are used for __most__ development activities, thus speeding

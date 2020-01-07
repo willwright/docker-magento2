@@ -8,7 +8,7 @@ services:
     build: .
     volumes:
 #     - /Users/wwright/development/www/local-magento2EE/dev/magento:/var/www/html/current
-     - magento2ee-web-sync:/var/www/html/current/app:nocopy
+     - magento2ee-web-sync:/var/www/html/current:nocopy
     environment:
       - XDEBUG_CONFIG=remote_host=host.docker.internal remote_enable=0
       - PHP_IDE_CONFIG=serverName=local.magento2.com
