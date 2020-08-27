@@ -21,9 +21,9 @@ Open a terminal window `cd` to the directory which you checked this repo out to 
 HAProxy (v1.9) -> Varnish (v6.3) -> Apache2 (2.4)
 
 ### Backend
-* Percona (5.7)
+* MySQL (8.0)
 * Redis (5.0)
-* ElasticSearch (6.8)
+* ElasticSearch (7.6.2)
 * Kibana (6.8)
 
 ## Configuration

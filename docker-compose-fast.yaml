@@ -21,16 +21,16 @@ services:
      - redis-session
      - db
   redis-cache:
-    image: wwright/magento2-redis
+    image: wwright/magento2-redis:2.4
     command: [redis-server,/etc/redis/6379-redis-cache.conf]
   redis-fpc:
-    image: wwright/magento2-redis
+    image: wwright/magento2-redis:2.4
     command: [redis-server,/etc/redis/6380-redis-fpc.conf]
   redis-session:
-    image: wwright/magento2-redis
+    image: wwright/magento2-redis:2.4
     command: [redis-server,/etc/redis/6381-redis-sessions.conf]
   db:
-    image: wwright/magento2-db
+    image: wwright/magento2-db:2.4
     volumes:
      - mysqldb:/var/lib/mysql
     ports:
@@ -39,11 +39,11 @@ services:
      - MYSQL_ROOT_PASSWORD=password123
      - MYSQL_DATABASE=magento
   varnish:
-    image: wwright/magento2-varnish
+    image: wwright/magento2-varnish:2.4
     depends_on:
      - web
   elasticsearch:
-    image: elasticsearch:6.8.3
+    image: elasticsearch:7.6.2
     volumes:
      - esdata1:/usr/share/elasticsearch/data
   kibana:
