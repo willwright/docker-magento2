@@ -57,6 +57,12 @@ services:
      - "443:443"
     depends_on:
      - varnish
+  mail:
+    image: mailhog/mailhog
+    logging:
+      driver: 'none'  # disable saving logs
+    ports:
+      - 8025:8025 # web ui
 volumes:
   mysqldb:
   esdata1:
