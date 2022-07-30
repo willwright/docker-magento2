@@ -1,0 +1,91 @@
+#####################################
+#   Configured for: Magento 2.4 + Varnish
+#####################################
+version: '3.7'
+services:
+#  web:
+#    image: wwright/magento2-web-local:2.4.4
+#    volumes:
+#     - D:\development\local-mage2tv\dev\magento:/var/www/html/current
+#    environment:
+#      - XDEBUG_CONFIG=remote_host=host.docker.internal remote_enable=1
+#      - PHP_IDE_CONFIG=serverName=local.mage2tv.com
+#    depends_on:
+#     - redis-cache
+#     - redis-fpc
+#     - redis-session
+#     - db
+#    ports:
+#      - "80:80"
+#      - "443:443"
+  redis-cache:
+    image: wwright/magento2-redis:2.4.4
+    command: [redis-server,/etc/redis/6379-redis-cache.conf]
+    ports:
+      - "6379:6379"
+  redis-fpc:
+    image: wwright/magento2-redis:2.4.4
+    command: [redis-server,/etc/redis/6380-redis-fpc.conf]
+    ports:
+      - "6380:6380"
+  redis-session:
+    image: wwright/magento2-redis:2.4.4
+    command: [redis-server,/etc/redis/6381-redis-sessions.conf]
+    ports:
+      - "6381:6381"
+  db:
+    image: wwright/magento2-db:2.4
+    volumes:
+     - mysqldb:/var/lib/mysql
+    ports:
+     - "3306:3306"
+    environment:
+     - MYSQL_ROOT_PASSWORD=password123
+     - MYSQL_DATABASE=magento
+  varnish:
+#    image: wwright/magento2-varnish:2.4.4
+    build: magento2-varnish
+    command: ["varnishd","-F","-f","/etc/varnish/varnish.vcl","-s","malloc,2048M","-p","http_resp_hdr_len=90000","-p","thread_pool_min=5","-p","thread_pool_timeout=600","-p","http_max_hdr=200","-p","http_resp_size=9000k","-p","workspace_backend=9000k"]
+#    depends_on:
+#     - web
+  elasticsearch:
+    image: elasticsearch:7.16.3
+    environment:
+      - discovery.type=single-node
+    volumes:
+     - esdata1:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+  kibana:
+    image: kibana:8.2.2
+    ports:
+     - "5601:5601"
+  haproxy:
+    image: wwright/magento2-haproxy
+    ports:
+     - "80:80"
+     - "443:443"
+    depends_on:
+     - varnish
+  mail:
+    image: mailhog/mailhog
+    logging:
+      driver: 'none'  # disable saving logs
+    ports:
+      - "8025:8025" # web ui
+  redis-commander:
+#    container_name: redis-commander
+#    hostname: redis-commander
+    image: ghcr.io/joeferner/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=redis-cache:redis-cache:6379,redis-fpc:redis-fpc:6380,redis-session:redis-session:6381
+    ports:
+      - "8081:8081" #web UI
+    depends_on:
+      - redis-cache
+      - redis-fpc
+      - redis-session
+volumes:
+  mysqldb:
+  esdata1:
