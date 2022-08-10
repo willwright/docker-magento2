@@ -6,15 +6,15 @@ services:
   web:
     image: wwright/magento2-web-local:2.4.4
     volumes:
-     - ./magento:/var/www/html/current
+      - ./magento:/var/www/html/current
     environment:
       - XDEBUG_CONFIG=remote_host=host.docker.internal remote_enable=1
       - PHP_IDE_CONFIG=serverName=local.magento2.com
     depends_on:
-     - redis-cache
-     - redis-fpc
-     - redis-session
-     - db
+      - redis-cache
+      - redis-fpc
+      - redis-session
+      - db
   haproxy:
     image: haproxy:2.6-alpine
     volumes:
