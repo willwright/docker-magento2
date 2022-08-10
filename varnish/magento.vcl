@@ -5,26 +5,10 @@ import std;
 # The minimal Varnish version is 6.0
 # For SSL offloading, pass the following header in your proxy server or load balancer: 'X-Forwarded-Proto: https'
 
-probe magento {
-    #.url = "/health_check.php";
-    .request =
-        "GET /health_check.php HTTP/1.1"
-        "User-Agent: varnish-health"
-        "Host: web:8080"
-        "Connection: Close"
-        "Accept: */*";
-    .timeout = 2s;
-    .interval = 5s;
-    .window = 10;
-    .threshold = 5;
-    .expected_response = 499;
-}
-
 backend default {
     .host = "web";
     .port = "8080";
     .first_byte_timeout = 600s;
-    .probe = magento;
 }
 
 acl purge {

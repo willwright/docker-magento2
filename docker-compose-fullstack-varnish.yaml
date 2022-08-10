@@ -15,12 +15,12 @@ services:
       - redis-fpc
       - redis-session
       - db
-#    ports:
-#      - "127.0.0.1:8080:8080"
   varnish:
     image: varnish:7.0-alpine
     volumes:
       - ./varnish/magento.vcl:/etc/varnish/magento.vcl
+    tmpfs:
+      - /var/lib/varnish/varnishd:exec
     command: ["varnishd","-F","-f","/etc/varnish/magento.vcl","-s","malloc,2048M","-p","http_resp_hdr_len=90000","-p","thread_pool_min=5","-p","thread_pool_timeout=600","-p","http_max_hdr=200","-p","http_resp_size=9000k","-p","workspace_backend=9000k"]
     depends_on:
        - web
@@ -34,6 +34,7 @@ services:
       - "127.0.0.1:443:443"
     depends_on:
       - web
+      - varnish
   redis-cache:
     image: redis:6.2-alpine
     volumes:
