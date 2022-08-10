@@ -17,7 +17,7 @@ Open a terminal window `cd` to the directory which you checked this repo out to 
 This compose file has been built specifically for Magento 2.4.4
 
 ### Frontend
-HAProxy (v2.6) -> Varnish (v6.3) -> Apache2 (2.4)
+HAProxy (v2.6) -> Varnish (v6.3) -> nginx (1.18.0)
 
 ### Backend
 * MySQL (8.0)
@@ -28,9 +28,10 @@ HAProxy (v2.6) -> Varnish (v6.3) -> Apache2 (2.4)
 ### Utilities
 * Mailhog
 * RedisCommander
+* Kibana
 
 ## Configuration
-If you want to use a different directory that's fine, but you'll need to change the paths in `docker-compose.yaml`.
+If you want to use a different source directory you'll need to change the paths in `docker-compose.yaml`.
 
 Data for MySQL is persisted in a Volume `mysqldb`.
 
@@ -42,20 +43,30 @@ these in order to configure a particular service to your specific needs.
 ### Fullstack
 `docker-compose-fullstack.yaml`
 
-This configuration provides everything necessary to run Magento locally using only Docker containers. The downside to this
-configuration is that Magento interceptor and frontend file generation can be rather slow due to mounting the host filesystem
-to the container filesystem.
+This configuration provides everything necessary to run Magento locally using only Docker containers. This configuration 
+does **not** use Varnish to help with faster development workflow.
 
-On Mac and Linux the performance may not be bad but on Windows there can be slowness in FS operations.
+Pros:
+* All service needed to run Magento are provided by Docker
+* Faster development cycle
+
+Cons:
+* Very slow file system performance on Windows (Mac and Linux might be useable)
 
 ### Fullstack + Varnish
-There is a "fast" configuration pre-configured in `docker-compose-fast.yaml`.  To use this configuration either specify
-the file specifically when running `docker-compose up` or change the file name.
+`docker-compose-fullstack-varnish.yaml`
 
-This configuration requires that you run `docker-compose build` prior to starting the stack.
+This configuration provides everything necessary to run Magento locally using only Docker containers. This configuration
+**does** use Varnish in order to aid in developing against a full production stack.
 
-This configuration *only* mounts the directories that are used for __most__ development activities, thus speeding
-up the entire stack.
+Pros:
+* All service needed to run Magento are provided by Docker
+* Full stack debugging/testing
+
+Cons:
+* Very slow file system performance on Windows (Mac and Linux might be useable)
+* Slower development cycle
+* Varnish can obfuscate backend issues
 
 ### Hybrid
 There is a "fast" configuration pre-configured in `docker-compose-fast.yaml`.  To use this configuration either specify
