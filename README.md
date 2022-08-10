@@ -17,7 +17,7 @@ Open a terminal window `cd` to the directory which you checked this repo out to 
 This compose file has been built specifically for Magento 2.4.4
 
 ### Frontend
-HAProxy (v2.6) -> Varnish (v6.3) -> nginx (1.18.0)
+HAProxy (v2.6) -> Varnish (v7.0) -> nginx (1.18.0)
 
 ### Backend
 * MySQL (8.0)
@@ -69,13 +69,18 @@ Cons:
 * Varnish can obfuscate backend issues
 
 ### Hybrid
-There is a "fast" configuration pre-configured in `docker-compose-fast.yaml`.  To use this configuration either specify
-the file specifically when running `docker-compose up` or change the file name.
+`docker-compose-fullstack-varnish.yaml`
 
-This configuration requires that you run `docker-compose build` prior to starting the stack.
+This configuration provides _most_ services that are needed to run Magento locally. The web service is still your 
+responsibility to provide the web service on the host machine.
 
-This configuration *only* mounts the directories that are used for __most__ development activities, thus speeding
-up the entire stack.
+Pros:
+* Web service running locally results in fast file system operations
+* Quickest development cycle
+
+Cons:
+* There is a large setup cost
+* Networking between host and container network is complex
 
 ## Frequent Tasks
 ### Terminal into the web container to run Magento CLI
