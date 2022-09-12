@@ -1,10 +1,10 @@
 #####################################
-#   Configured for: Magento 2.4.4
+#   Configured for: Magento 2.4.1
 #####################################
 version: '3.8'
 services:
   web:
-    image: wwright/magento2-web-local:2.4.4
+    image: wwright/magento2-web-local:2.4.1
     volumes:
       - ./magento:/var/www/html/current
     environment:
@@ -26,17 +26,17 @@ services:
     depends_on:
       - web
   redis-cache:
-    image: redis:6.2-alpine
+    image: redis:5.0-alpine
     volumes:
       - ./redis/6379-redis-cache.conf:/usr/local/etc/redis/redis.conf:ro
     command: [redis-server,/usr/local/etc/redis/redis.conf]
   redis-fpc:
-    image: redis:6.2-alpine
+    image: redis:5.0-alpine
     volumes:
       - ./redis/6380-redis-fpc.conf:/usr/local/etc/redis/redis.conf:ro
     command: [redis-server,/usr/local/etc/redis/redis.conf]
   redis-session:
-    image: redis:6.2-alpine
+    image: redis:5.0-alpine
     volumes:
       - ./redis/6381-redis-sessions.conf:/usr/local/etc/redis/redis.conf:ro
     command: [redis-server,/usr/local/etc/redis/redis.conf]
@@ -51,14 +51,14 @@ services:
     ports:
       - "127.0.0.1:3306:3306"
   elasticsearch:
-    image: elasticsearch:7.16.3
+    image: elasticsearch:7.7.1
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
     volumes:
       - esdata1:/usr/share/elasticsearch/data
   kibana:
-    image: kibana:7.16.3
+    image: kibana:7.7.1
     ports:
       - "127.0.0.1:5601:5601" # web ui
     depends_on:
