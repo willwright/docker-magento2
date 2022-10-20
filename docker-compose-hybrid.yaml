@@ -1,5 +1,5 @@
 #####################################
-#   Configured for: Magento 2.4.4
+#   Configured for: Magento 2.4.5
 #####################################
 version: '3.8'
 services:
@@ -32,17 +32,18 @@ services:
     ports:
       - "127.0.0.1:6381:6381"
   db:
-    image: mysql:8
+    image: mariadb:10.4
     volumes:
-      - mysqldb:/var/lib/mysql
-      - ./mysql/magento.my.cnf:/etc/mysql/conf.d/magento.my.cnf:ro
+      - mariadb:/var/lib/mysql
+      # - ./mariadb/maria.cnf:/etc/mysql/maria.cnf:ro      
+      - ./mariadb/magento.my.cnf:/etc/mysql/conf.d/magento.my.cnf:ro
     environment:
       - MYSQL_ROOT_PASSWORD=password123
       - MYSQL_DATABASE=magento
     ports:
       - "127.0.0.1:3306:3306"
   elasticsearch:
-    image: elasticsearch:7.16.3
+    image: elasticsearch:7.17
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
@@ -51,7 +52,7 @@ services:
     ports:
       - "127.0.0.1:9200:9200"
   kibana:
-    image: kibana:7.16.3
+    image: kibana:7.17
     ports:
       - "127.0.0.1:5601:5601" # web ui
     depends_on:
@@ -61,6 +62,7 @@ services:
     logging:
       driver: 'none'  # disable saving logs
     ports:
+      - "127.0.0.1:1025:1025" # smtphost ui
       - "127.0.0.1:8025:8025" # web ui
   redis-commander:
     image: ghcr.io/joeferner/redis-commander:latest
@@ -74,5 +76,5 @@ services:
       - redis-fpc
       - redis-session
 volumes:
-  mysqldb:
+  mariadb:
   esdata1:
