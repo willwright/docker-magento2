@@ -48,7 +48,7 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
     volumes:
-      - esdata1:/usr/share/elasticsearch/data
+      - esdata:/usr/share/elasticsearch/data
     ports:
       - "127.0.0.1:9200:9200"
   kibana:
@@ -77,4 +77,4 @@ services:
       - redis-session
 volumes:
   mariadb:
-  esdata1:
+  esdata:

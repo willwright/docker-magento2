@@ -14,16 +14,16 @@ Replace `local.magento2.com` with whatever your want your localhost to be called
 Open a terminal window `cd` to the directory which you checked this repo out to (`www/docker-magento2`) and run `docker-compose up`.  
 
 ## Documentation
-This compose file has been built specifically for Magento 2.4.4
+This compose file has been built specifically for Magento 2.4.5
 
 ### Frontend
 HAProxy (v2.6) -> Varnish (v7.0) -> nginx (1.18.0)
 
 ### Backend
-* MySQL (8.0)
+* MariaDB (10.4)
 * Redis (6.2)
-* ElasticSearch (7.16.3)
-* Kibana (7.16.3)
+* ElasticSearch (7.17)
+* Kibana (7.17)
 
 ### Utilities
 * Mailhog
@@ -33,9 +33,9 @@ HAProxy (v2.6) -> Varnish (v7.0) -> nginx (1.18.0)
 ## Configuration
 If you want to use a different source directory you'll need to change the paths in `docker-compose.yaml`.
 
-Data for MySQL is persisted in a Volume `mysqldb`.
+Data for MySQL is persisted in a Volume `mariadb`.
 
-Data for ElasticSearch is persisted in a Volume `esdata1`.
+Data for ElasticSearch is persisted in a Volume `esdata`.
 
 There are configuration files for _most_ of the services which are injected into the respective container. You can edit
 these in order to configure a particular service to your specific needs.
