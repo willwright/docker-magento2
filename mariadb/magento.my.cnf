@@ -24,8 +24,6 @@
 # port = 3306
 
 [mysqld]
-collation-server = latin1_swedish_ci
-collation-database = latin1_swedish_ci
 
 # Import all .cnf files from configuration directory
 [mariadbd]
