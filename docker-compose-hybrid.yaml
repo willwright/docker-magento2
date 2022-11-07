@@ -14,21 +14,21 @@ services:
     image: redis:6.2-alpine
     volumes:
       - ./redis/6379-redis-cache.conf:/usr/local/etc/redis/redis.conf:ro
-    command: [redis-server,/usr/local/etc/redis/redis.conf]
+    command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
     ports:
       - "127.0.0.1:6379:6379"
   redis-fpc:
     image: redis:6.2-alpine
     volumes:
       - ./redis/6380-redis-fpc.conf:/usr/local/etc/redis/redis.conf:ro
-    command: [redis-server,/usr/local/etc/redis/redis.conf]
+    command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
     ports:
       - "127.0.0.1:6380:6380"
   redis-session:
     image: redis:6.2-alpine
     volumes:
       - ./redis/6381-redis-sessions.conf:/usr/local/etc/redis/redis.conf:ro
-    command: [redis-server,/usr/local/etc/redis/redis.conf]
+    command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
     ports:
       - "127.0.0.1:6381:6381"
   db:
