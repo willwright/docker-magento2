@@ -29,17 +29,17 @@ services:
     image: redis:5.0-alpine
     volumes:
       - ./redis/6379-redis-cache.conf:/usr/local/etc/redis/redis.conf:ro
-    command: [redis-server,/usr/local/etc/redis/redis.conf]
+    command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
   redis-fpc:
     image: redis:5.0-alpine
     volumes:
       - ./redis/6380-redis-fpc.conf:/usr/local/etc/redis/redis.conf:ro
-    command: [redis-server,/usr/local/etc/redis/redis.conf]
+    command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
   redis-session:
     image: redis:5.0-alpine
     volumes:
       - ./redis/6381-redis-sessions.conf:/usr/local/etc/redis/redis.conf:ro
-    command: [redis-server,/usr/local/etc/redis/redis.conf]
+    command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
   db:
     image: mysql:8
     volumes:
