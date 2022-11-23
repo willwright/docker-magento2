@@ -57,7 +57,7 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
     volumes:
-      - esdata1:/usr/share/elasticsearch/data
+      - esdata:/usr/share/elasticsearch/data
   kibana:
     image: kibana:7.9.3
     ports:
