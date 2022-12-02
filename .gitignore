@@ -2,3 +2,5 @@
 /dev/
 docker-compose.yaml
 /magento/
+
+.DS_Store
