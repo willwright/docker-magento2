@@ -1,4 +1,3 @@
 [mysqld]
-show_compatibility_56=ON
 max_allowed_packet=48M
 innodb_strict_mode=OFF
