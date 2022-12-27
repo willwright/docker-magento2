@@ -39,16 +39,19 @@ services:
     image: redis:6.2-alpine
     volumes:
       - ./redis/6379-redis-cache.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis-cache:/data
     command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
   redis-fpc:
     image: redis:6.2-alpine
     volumes:
       - ./redis/6380-redis-fpc.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis-fpc:/data
     command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
   redis-session:
     image: redis:6.2-alpine
     volumes:
       - ./redis/6381-redis-sessions.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis-session:/data
     command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
   db:
     image: mariadb:10.4
@@ -94,3 +97,6 @@ services:
 volumes:
   mariadb:
   esdata:
+  redis-session:
+  redis-cache:
+  redis-fpc:

@@ -14,6 +14,7 @@ services:
     image: redis:6.2-alpine
     volumes:
       - ./redis/6379-redis-cache.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis-cache:/data
     command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
     ports:
       - "127.0.0.1:6379:6379"
@@ -21,6 +22,7 @@ services:
     image: redis:6.2-alpine
     volumes:
       - ./redis/6380-redis-fpc.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis-fpc:/data
     command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
     ports:
       - "127.0.0.1:6380:6380"
@@ -28,6 +30,7 @@ services:
     image: redis:6.2-alpine
     volumes:
       - ./redis/6381-redis-sessions.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis-session:/data
     command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
     ports:
       - "127.0.0.1:6381:6381"
@@ -78,3 +81,6 @@ services:
 volumes:
   mariadb:
   esdata:
+  redis-session:
+  redis-cache:
+  redis-fpc:
