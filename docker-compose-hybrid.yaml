@@ -1,61 +1,85 @@
 #####################################
 #   Configured for: Magento 2.4.5
 #####################################
-version: '3.8'
+version: "3.8"
 services:
   haproxy:
-    image: haproxy:2.6-alpine
+    image: haproxy:3.2-alpine
     volumes:
       - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
       - ./haproxy/haproxy.pem:/etc/ssl/private/haproxy.pem:ro
     ports:
       - "127.0.0.1:443:443"
   redis-cache:
-    image: redis:6.2-alpine
+    image: redis:7.2-alpine
     volumes:
       - ./redis/6379-redis-cache.conf:/usr/local/etc/redis/redis.conf:ro
       - redis-cache:/data
-    command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
+    command:
+      [
+        redis-server,
+        /usr/local/etc/redis/redis.conf,
+        "--save",
+        "",
+        "--appendonly",
+        "no",
+      ]
     ports:
       - "127.0.0.1:6379:6379"
   redis-fpc:
-    image: redis:6.2-alpine
+    image: redis:7.2-alpine
     volumes:
       - ./redis/6380-redis-fpc.conf:/usr/local/etc/redis/redis.conf:ro
       - redis-fpc:/data
-    command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
+    command:
+      [
+        redis-server,
+        /usr/local/etc/redis/redis.conf,
+        "--save",
+        "",
+        "--appendonly",
+        "no",
+      ]
     ports:
       - "127.0.0.1:6380:6380"
   redis-session:
-    image: redis:6.2-alpine
+    image: redis:7.2-alpine
     volumes:
       - ./redis/6381-redis-sessions.conf:/usr/local/etc/redis/redis.conf:ro
       - redis-session:/data
-    command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
+    command:
+      [
+        redis-server,
+        /usr/local/etc/redis/redis.conf,
+        "--save",
+        "",
+        "--appendonly",
+        "no",
+      ]
     ports:
       - "127.0.0.1:6381:6381"
   db:
-    image: mariadb:10.4
+    image: mariadb:10.6
     volumes:
       - mariadb:/var/lib/mysql
-      # - ./mariadb/maria.cnf:/etc/mysql/maria.cnf:ro      
+      # - ./mariadb/maria.cnf:/etc/mysql/maria.cnf:ro
       - ./mariadb/magento.my.cnf:/etc/mysql/conf.d/magento.my.cnf:ro
     environment:
       - MYSQL_ROOT_PASSWORD=password123
       - MYSQL_DATABASE=magento
     ports:
       - "127.0.0.1:3306:3306"
-  elasticsearch:
-    image: elasticsearch:7.17.6
+  opensearch:
+    image: opensearch:7.2
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
     volumes:
-      - esdata:/usr/share/elasticsearch/data
+      - osdata:/usr/share/elasticsearch/data
     ports:
       - "127.0.0.1:9200:9200"
-  kibana:
-    image: kibana:7.17.6
+  dashboards:
+    image: opensearch-dashboards:2
     ports:
       - "127.0.0.1:5601:5601" # web ui
     depends_on:
@@ -63,7 +87,7 @@ services:
   mail:
     image: mailhog/mailhog
     logging:
-      driver: 'none'  # disable saving logs
+      driver: "none" # disable saving logs
     ports:
       - "127.0.0.1:1025:1025" # smtphost ui
       - "127.0.0.1:8025:8025" # web ui
@@ -80,7 +104,7 @@ services:
       - redis-session
 volumes:
   mariadb:
-  esdata:
+  osdata:
   redis-session:
   redis-cache:
   redis-fpc:
