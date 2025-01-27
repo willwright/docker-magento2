@@ -1,10 +1,9 @@
 #####################################
-#   Configured for: Magento 2.4.5
+#   Configured for: Magento 2.4.7
 #####################################
-version: "3.8"
 services:
   haproxy:
-    image: haproxy:3.2-alpine
+    image: haproxy:3.1-alpine
     volumes:
       - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
       - ./haproxy/haproxy.pem:/etc/ssl/private/haproxy.pem:ro
@@ -70,20 +69,21 @@ services:
     ports:
       - "127.0.0.1:3306:3306"
   opensearch:
-    image: opensearch:7.2
+    image: opensearchproject/opensearch:2.12.0
     environment:
       - discovery.type=single-node
-      - xpack.security.enabled=false
+      - plugins.security.disabled=true
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=.sCQb9*iH_iLyMQEqZiy
     volumes:
-      - osdata:/usr/share/elasticsearch/data
+      - osdata:/var/lib/opensearch
     ports:
       - "127.0.0.1:9200:9200"
   dashboards:
-    image: opensearch-dashboards:2
+    image: opensearchproject/opensearch-dashboards:2
     ports:
       - "127.0.0.1:5601:5601" # web ui
     depends_on:
-      - elasticsearch
+      - opensearch
   mail:
     image: mailhog/mailhog
     logging:

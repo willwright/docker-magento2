@@ -1,7 +1,7 @@
 #####################################
 #   Configured for: Magento 2.4.5
 #####################################
-version: '3.8'
+version: "3.8"
 services:
   web:
     image: wwright/magento2-web-local:2.4.5
@@ -16,12 +16,11 @@ services:
       - redis-session
       - db
   haproxy:
-    image: haproxy:2.6-alpine
+    image: haproxy:3.1-alpine
     volumes:
       - ./haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
       - ./haproxy/haproxy.pem:/etc/ssl/private/haproxy.pem:ro
     ports:
-      - "127.0.0.1:80:80"
       - "127.0.0.1:443:443"
     depends_on:
       - web
@@ -30,24 +29,48 @@ services:
     volumes:
       - ./redis/6379-redis-cache.conf:/usr/local/etc/redis/redis.conf:ro
       - redis-cache:/data
-    command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
+    command:
+      [
+        redis-server,
+        /usr/local/etc/redis/redis.conf,
+        "--save",
+        "",
+        "--appendonly",
+        "no",
+      ]
   redis-fpc:
     image: redis:6.2-alpine
     volumes:
       - ./redis/6380-redis-fpc.conf:/usr/local/etc/redis/redis.conf:ro
       - redis-fpc:/data
-    command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
+    command:
+      [
+        redis-server,
+        /usr/local/etc/redis/redis.conf,
+        "--save",
+        "",
+        "--appendonly",
+        "no",
+      ]
   redis-session:
     image: redis:6.2-alpine
     volumes:
       - ./redis/6381-redis-sessions.conf:/usr/local/etc/redis/redis.conf:ro
       - redis-session:/data
-    command: [redis-server,/usr/local/etc/redis/redis.conf, '--save', '', '--appendonly', 'no']
+    command:
+      [
+        redis-server,
+        /usr/local/etc/redis/redis.conf,
+        "--save",
+        "",
+        "--appendonly",
+        "no",
+      ]
   db:
     image: mariadb:10.4
     volumes:
       - mariadb:/var/lib/mysql
-      # - ./mariadb/maria.cnf:/etc/mysql/maria.cnf:ro      
+      # - ./mariadb/maria.cnf:/etc/mysql/maria.cnf:ro
       - ./mariadb/magento.my.cnf:/etc/mysql/conf.d/magento.my.cnf:ro
     environment:
       - MYSQL_ROOT_PASSWORD=password123
@@ -70,7 +93,7 @@ services:
   mail:
     image: mailhog/mailhog
     logging:
-      driver: 'none'  # disable saving logs
+      driver: "none" # disable saving logs
     ports:
       - "127.0.0.1:8025:8025" # web ui
   redis-commander:
