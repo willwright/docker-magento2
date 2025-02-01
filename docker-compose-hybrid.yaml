@@ -93,7 +93,6 @@ services:
       - "127.0.0.1:8025:8025" # web ui
   redis-commander:
     image: ghcr.io/joeferner/redis-commander:latest
-    restart: always
     environment:
       - REDIS_HOSTS=redis-cache:redis-cache:6379,redis-fpc:redis-fpc:6380,redis-session:redis-session:6381
     ports:
