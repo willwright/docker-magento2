@@ -74,6 +74,7 @@ services:
       - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
       - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m # minimum and maximum Java heap size, recommend setting both to 50% of system RAM
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=0penSearch!23
+      - DISABLE_SECURITY_PLUGIN=true
     ulimits:
       memlock:
         soft: -1
@@ -86,11 +87,11 @@ services:
     ports:
       - "127.0.0.1:9200:9200"
   dashboards:
-    image: opensearchproject/opensearch-dashboards:2.12.0
+    image: wwright/opensearch-dashboards-no-security:2.12.0
     ports:
       - "127.0.0.1:5601:5601" # web ui
     environment:
-      OPENSEARCH_HOSTS: '["https://opensearch:9200"]'
+      OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
     depends_on:
       - opensearch
   mail:
