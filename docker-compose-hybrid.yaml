@@ -10,55 +10,55 @@ services:
     ports:
       - "127.0.0.1:443:443"
   redis-cache:
-    image: redis:7.2-alpine
+    image: valkey/valkey:8-alpine3.22
     volumes:
-      - ./redis/6379-redis-cache.conf:/usr/local/etc/redis/redis.conf:ro
       - redis-cache:/data
     command:
       [
-        redis-server,
-        /usr/local/etc/redis/redis.conf,
+        valkey-server,
         "--save",
         "",
         "--appendonly",
         "no",
+        "--port",
+        "6379"
       ]
     ports:
       - "127.0.0.1:6379:6379"
   redis-fpc:
-    image: redis:7.2-alpine
+    image: valkey/valkey:8-alpine3.22
     volumes:
-      - ./redis/6380-redis-fpc.conf:/usr/local/etc/redis/redis.conf:ro
       - redis-fpc:/data
     command:
       [
-        redis-server,
-        /usr/local/etc/redis/redis.conf,
+        valkey-server,
         "--save",
         "",
         "--appendonly",
         "no",
+        "--port",
+        "6380"
       ]
     ports:
       - "127.0.0.1:6380:6380"
   redis-session:
-    image: redis:7.2-alpine
+    image: valkey/valkey:8-alpine3.22
     volumes:
-      - ./redis/6381-redis-sessions.conf:/usr/local/etc/redis/redis.conf:ro
       - redis-session:/data
     command:
       [
-        redis-server,
-        /usr/local/etc/redis/redis.conf,
+        valkey-server,
         "--save",
         "",
         "--appendonly",
         "no",
+        "--port",
+        "6381"
       ]
     ports:
       - "127.0.0.1:6381:6381"
   db:
-    image: mariadb:10.6
+    image: mariadb:11.4
     volumes:
       - mariadb:/var/lib/mysql
       # - ./mariadb/maria.cnf:/etc/mysql/maria.cnf:ro
@@ -68,7 +68,7 @@ services:
     ports:
       - "127.0.0.1:3306:3306"
   opensearch:
-    image: opensearchproject/opensearch:2.12.0
+    image: opensearchproject/opensearch:3
     environment:
       - discovery.type=single-node
       - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
@@ -87,7 +87,7 @@ services:
     ports:
       - "127.0.0.1:9200:9200"
   dashboards:
-    image: wwright/opensearch-dashboards-no-security:2.12.0
+    image: wwright/opensearch-dashboards-no-security:3
     ports:
       - "127.0.0.1:5601:5601" # web ui
     environment:
