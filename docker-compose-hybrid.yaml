@@ -1,5 +1,5 @@
 #####################################
-#   Configured for: Magento 2.4.7
+#   Configured for: Magento 2.4.8
 #####################################
 services:
   haproxy:
