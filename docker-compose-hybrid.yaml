@@ -10,7 +10,7 @@ services:
     ports:
       - "127.0.0.1:443:443"
   redis-cache:
-    image: valkey/valkey:8-alpine3.22
+    image: valkey/valkey:8.1-alpine
     volumes:
       - redis-cache:/data
     command:
@@ -26,7 +26,7 @@ services:
     ports:
       - "127.0.0.1:6379:6379"
   redis-fpc:
-    image: valkey/valkey:8-alpine3.22
+    image: valkey/valkey:8.1-alpine
     volumes:
       - redis-fpc:/data
     command:
@@ -42,7 +42,7 @@ services:
     ports:
       - "127.0.0.1:6380:6380"
   redis-session:
-    image: valkey/valkey:8-alpine3.22
+    image: valkey/valkey:8.1-alpine
     volumes:
       - redis-session:/data
     command:
@@ -94,6 +94,16 @@ services:
       OPENSEARCH_HOSTS: '["http://opensearch:9200"]'
     depends_on:
       - opensearch
+  rabbitmq:
+    image: rabbitmq:4.3-alpine
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672" # web ui
+    configs:
+      - source: rabbitmq-plugins
+        target: /etc/rabbitmq/enabled_plugins
+    environment:
+      - RABBITMQ_DEFAULT_VHOST=magento
   mail:
     image: mailhog/mailhog
     logging:
@@ -111,6 +121,9 @@ services:
       - redis-cache
       - redis-fpc
       - redis-session
+configs:
+  rabbitmq-plugins:
+    content: "[rabbitmq_management]."
 volumes:
   mariadb:
   osdata:
