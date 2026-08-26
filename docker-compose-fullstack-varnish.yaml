@@ -3,7 +3,7 @@
 #####################################
 services:
   web:
-    image: wwright/magento2-web-local:2.4.7
+    image: wwright/magento2-web-local:2.4.8
     volumes:
       - ./magento:/var/www/html/current
     environment:
