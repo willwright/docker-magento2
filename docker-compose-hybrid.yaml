@@ -1,5 +1,5 @@
 #####################################
-#   Configured for: Magento 2.4.8
+#   Configured for: Magento 2.4.9
 #####################################
 services:
   haproxy:
@@ -10,7 +10,7 @@ services:
     ports:
       - "127.0.0.1:443:443"
   redis-cache:
-    image: valkey/valkey:8.1-alpine
+    image: valkey/valkey:9-alpine
     volumes:
       - redis-cache:/data
     command:
@@ -26,7 +26,7 @@ services:
     ports:
       - "127.0.0.1:6379:6379"
   redis-fpc:
-    image: valkey/valkey:8.1-alpine
+    image: valkey/valkey:9-alpine
     volumes:
       - redis-fpc:/data
     command:
@@ -42,7 +42,7 @@ services:
     ports:
       - "127.0.0.1:6380:6380"
   redis-session:
-    image: valkey/valkey:8.1-alpine
+    image: valkey/valkey:9-alpine
     volumes:
       - redis-session:/data
     command:
@@ -58,7 +58,7 @@ services:
     ports:
       - "127.0.0.1:6381:6381"
   db:
-    image: mariadb:11.4
+    image: mariadb:12.3
     volumes:
       - mariadb:/var/lib/mysql
       # - ./mariadb/maria.cnf:/etc/mysql/maria.cnf:ro
